@@ -4,7 +4,7 @@ Static GitHub Pages site for App Repair Proof, led by Gareth Price in the UK. Pr
 
 ## Publishing
 
-GitHub Pages source: main branch, repository root. Public URL: https://gareth1953.github.io/app-repair-proof/ after Pages is enabled and built.
+GitHub Pages source: main branch, repository root. Public URL: https://Tempest1953.github.io/app-repair-proof/ after Pages is enabled and built.
 
 ## Local check
 
