@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102c29">
+  <meta name="description" content="See the synthetic before-and-after booking repair demonstration behind App Repair Proof.">
+  <title>The repair example | App Repair Proof</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="header wrap"><a class="brand" href="./" aria-label="App Repair Proof home"><span class="brand-mark" aria-hidden="true">a<span>✓</span></span><span>App Repair <strong>Proof</strong></span></a><nav aria-label="Main navigation"><a href="./#how">How it works</a><a href="demo.html" aria-current="page">See the example</a><a class="nav-contact" href="./#contact">Discuss your app <span aria-hidden="true">↗</span></a></nav></header>
+  <main id="main">
+    <section class="demo-hero"><div class="wrap"><p class="eyebrow"><span class="dot"></span> A WORKING EXAMPLE OF THE METHOD</p><h1>One booking slot.<br><em>Two different timestamps.</em></h1><p class="lead">Here is the fault, the change and the check. This example was built for demonstration. It is not customer work or a live booking service.</p></div></section>
+    <section class="section wrap demo-content">
+      <div class="demo-intro"><span class="step-number">THE FAULT /</span><p>The app stores reservations as timestamp strings. <code>2026-09-25T14:00:00Z</code> and <code>2026-09-25T15:00:00+01:00</code> are the same instant, but their text differs. A raw text comparison accepts both bookings.</p></div>
+      <div class="code-grid">
+        <article class="code-card bad"><div class="code-title"><span>BEFORE</span><span>✕ duplicate accepted</span></div><pre><code>def book(existing_slots, requested_slot):
+    if requested_slot in existing_slots:
+        return False
+    existing_slots.add(requested_slot)
+    return True</code></pre></article>
+        <article class="code-card good"><div class="code-title"><span>AFTER</span><span>✓ duplicate rejected</span></div><pre><code>requested = normalize_slot(requested_slot)
+if any(normalize_slot(slot) == requested
+       for slot in existing_slots):
+    return False
+existing_slots.add(requested_slot)
+return True</code></pre></article>
+      </div>
+      <div class="demo-intro second"><span class="step-number">THE CHECK /</span><p>The test starts with a 14:00 UTC booking, then attempts 15:00 UTC+1. The original version accepts a second booking; the repaired version rejects it. The suite also checks a distinct time and invalid or missing timezones.</p></div>
+      <div class="test-result"><span class="green-dot"></span><div><strong>5 tests passed</strong><p>Run them yourself with Python 3: <code>python3 -m unittest -v test_booking.py</code></p></div><a href="https://github.com/Gareth1953/app-repair-proof/tree/main/demo" target="_blank" rel="noopener noreferrer">View the source <span aria-hidden="true">↗</span></a></div>
+      <p class="demo-limitation"><strong>The limit:</strong> This in-memory example does not solve simultaneous database writes. A real booking app also needs a database uniqueness rule or transaction control. Actual customer work is quoted after inspecting the real code.</p>
+      <a class="text-link" href="./#contact">Discuss your app <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+  <footer class="footer wrap"><a class="brand" href="./"><span class="brand-mark" aria-hidden="true">a<span>✓</span></span><span>App Repair <strong>Proof</strong></span></a><p>© 2026 App Repair Proof · Gareth Price · United Kingdom</p><p>No tracking scripts, analytics, or contact form on this site.</p></footer>
+</body>
+</html>
